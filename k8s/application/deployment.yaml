@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-kubernetes-application-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: backend
+  template:
+    metadata:
+      name: sample-kuberntes-application
+      labels:
+        tier: backend
+    spec:
+      containers:
+        - name: sample-kubernetes-application
+          image: guhtiagosilva/sample-kubernetes-application:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: application-secret
+            - configMapRef:
+                name: sample-kubernetes-application-configmap
